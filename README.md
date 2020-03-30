@@ -1,2 +1,2 @@
-# ans-feed-by-author
-ANS Feed by Author for using with ARC Publisher
+# ans-feed-by-collection
+ANS Feed by Collection for using with ARC Publisher

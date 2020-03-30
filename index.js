@@ -1,47 +1,32 @@
-// Default values for the Core Component
 const schemaName = "ans-feed";
 
 const params = {
-    authorId: "text",
-    feedPage: "number",
-    feedSize: "number"
+  _id: "text",
+  feedOffset: "number",
+  feedSize: "number"
 };
 
-/**
- * @func pattern
- * @param {Object} key
- * @return {String} elastic search query for the feed sections
- */
-const pattern = (key = {}) => {
-    const website = key["arc-site"] || "Arc Site is not defined.";
-    const { authorId, feedPage = 1, feedSize } = key;
+export const createContentSource = website => {
+  const resolve = (key = {}) => {
+    const site = key["arc-site"] || website;
+    const { _id, feedOffset, feedSize } = key;
 
-    const searchPath = "/content/v4/search/published";
+    const path = "/content/v4/collections";
 
     const query = [
-        `q=credits.by._id:${encodeURI(authorId)}`,
-        `website=${website}`,
-        `size=${feedSize}`,
-        `from=${(feedPage - 1) * feedSize}`
+      `website=${site}`,
+      `_id=${_id}`,
+      `size=${feedSize}`,
+      `from=${feedOffset}`
     ].join("&");
 
-    return `${searchPath}?${query}&sort=display_date:desc`;
-};
-
-/**
- * @func resolve
- * @param {Object} key - the value to get the feed info from
- * @return {String} the content api search url for these sections and feed
- *                  offset
- */
-const resolve = key => {
-    return pattern(key);
-};
-
-const source = {
+    return `${path}?${query}`;
+  };
+  return {
+    params,
     resolve,
-    schemaName,
-    params
+    schemaName
+  };
 };
 
-export default source;
+export default createContentSource("Arc Site is not defined");
