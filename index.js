@@ -25,7 +25,8 @@ export const createContentSource = website => {
   return {
     params,
     resolve,
-    schemaName
+    schemaName,
+    ttl: 120
   };
 };
 
