@@ -1,7 +1,7 @@
 const schemaName = "ans-feed";
 
 const params = {
-  _id: "text",
+  contentAlias: "text",
   feedOffset: "number",
   feedSize: "number"
 };
@@ -9,13 +9,13 @@ const params = {
 export const createContentSource = website => {
   const resolve = (key = {}) => {
     const site = key["arc-site"] || website;
-    const { _id, feedOffset, feedSize } = key;
+    const { contentAlias, feedOffset, feedSize } = key;
 
     const path = "/content/v4/collections";
 
     const query = [
       `website=${site}`,
-      `_id=${_id}`,
+      `content_alias=${contentAlias}`,
       `size=${feedSize}`,
       `from=${feedOffset}`
     ].join("&");
